@@ -52,7 +52,7 @@ def load_run_params(run_path: str) -> Dict[str, Any]:
         return json.load(f)
 
 
-def build_dataloader(split: str, params: Dict[str, Any]) -> Tuple[PlantDataset, DataLoader]:
+def build_dataloader(split: str, params: Dict[str, Any], device: str = "cuda") -> Tuple[PlantDataset, DataLoader]:
     """
     Build PlantDataset and corresponding DataLoader for evaluation.
 
@@ -70,12 +70,14 @@ def build_dataloader(split: str, params: Dict[str, Any]) -> Tuple[PlantDataset, 
         augment=False,
     )
 
+    pin_memory = True if device == "cuda" else False
+
     dataloader = DataLoader(
         dataset=dataset,
         batch_size=1,
         shuffle=False,
         num_workers=0,
-        pin_memory=True,
+        pin_memory=pin_memory,
         collate_fn=custom_collate_fn,
     )
 

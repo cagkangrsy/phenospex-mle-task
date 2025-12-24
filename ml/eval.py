@@ -29,7 +29,7 @@ def main(args: argparse.Namespace) -> None:
 
     model = load_model(model_path, device)
     params = load_run_params(run_path)
-    dataset, dataloader = build_dataloader(args.split, params)
+    dataset, dataloader = build_dataloader(args.split, params, args.device)
 
     print(f"Running on: {device}")
     total_images = len(dataset)
