@@ -20,7 +20,7 @@ CONFIG = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run inference using an ONNX UNet model.")
     parser.add_argument("--image", "--i", type=str, required=True, help="Path to the input image.")
-    parser.add_argument("--model", "--m", type=str, default="UNetTiny_aug_sigma3.0_osw12.0_sm2.0_val0.001647_export.onnx", help="Path to the ONNX model file.")
+    parser.add_argument("--model", "--m", type=str, default="UNetTiny_aug_sigma3.0_osw25.0_sm2.0_val0.000984_export.onnx", help="Path to the ONNX model file.")
     parser.add_argument("--novisual", "--nv", action="store_true", help="Skip visualization plot generation.")
     return parser.parse_args()
 

@@ -21,7 +21,7 @@ CONFIG = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run inference using a PyTorch UNet model.")
     parser.add_argument("--image", "--i", type=str, required=True, help="Path to the input image.")
-    parser.add_argument("--model", "--m", type=str, help="Path to the trained model file (.pt checkpoint).")
+    parser.add_argument("--model", "--m", type=str, default="UNetTiny_aug_sigma3.0_osw25.0_sm2.0_val0.000984.pt", help="Path to the trained model file (.pt checkpoint).")
     parser.add_argument("--novisual", "--nv", action="store_true", help="Skip visualization plot generation.")
     return parser.parse_args()
 
