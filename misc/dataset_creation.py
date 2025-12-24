@@ -29,7 +29,7 @@ def collect_dataset_files(dataset_ids, source_file, extension):
     dataset_files = {}
 
     for id in dataset_ids:
-        path_pattern = os.path.join("..", id, id, "*")
+        path_pattern = os.path.join("..", id, "*")
         folders = glob.glob(path_pattern)
 
         files_to_copy = []
