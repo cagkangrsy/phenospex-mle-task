@@ -17,13 +17,6 @@
   </p>
 </div>
 
-<hr />
-
-
-
-
-
-
 
 ## Table of Contents
 
@@ -240,7 +233,7 @@ cd misc
 Creates train/validation/test splits from raw dataset folders.
 
 ```bash
-python dataset_creation.py --output-path ../ml/data/images
+python dataset_creation.py
 ```
 
 **Purpose**
@@ -255,10 +248,7 @@ python dataset_creation.py --output-path ../ml/data/images
 Creates an augmented test set from the original test split.
 
 ```bash
-python create_augmented_test_set.py \
-  --rotations 90 270 \
-  --noise_sigma 10.0 \
-  --erase_fraction 0.3
+python create_augmented_test_set.py
 ```
 
 **Augmentations**
@@ -306,13 +296,13 @@ ONNX-exported model. This is the **recommended inference method** for deployment
 and CPU-only execution.
 
 ```bash
-python inference_onnx.py --image path/to/image.bmp --model model.onnx
+python inference_onnx.py --image [image.bmp] --model [model.onnx]
 ```
 
 **Arguments**
-- `--image` / `-i` (required): Path to input image (BMP, PNG, JPEG)
-- `--model` / `-m` (optional): Path to ONNX model
-- `--novisual` / `-nv` (optional): Disable visualization output
+- `--image` / `--i` (required): Path to input image (BMP, PNG, JPEG)
+- `--model` / `--m` (optional): Path to ONNX model (defaults to model in repo)
+- `--novisual` / `--nv` (optional): Disable visualization output
 
 **Outputs**
 Saved to `ml/inference_onnx/{image_name}/`:
@@ -326,7 +316,7 @@ Saved to `ml/inference_onnx/{image_name}/`:
 Trains a UNetTiny model on the prepared dataset.
 
 ```bash
-python train.py --batch_size [BATCH_SIZE] --epochs [EPOCHS] --augment [1-0] --learning_rate [LR]
+python train.py --batch_size [BATCH_SIZE] --epochs [EPOCHS] --augment [AUGMENT] --learning_rate [LEARNING_RATE]
 ```
 
 **Key Arguments**
@@ -354,7 +344,7 @@ Saved to `ml/runs/{run_name}/`:
 Evaluates a trained model from a training run on a specified dataset split. Writes the results to the folder where model is located
 
 ```bash
-python eval.py --model runs/{run_name}/UNetTiny_*.pt --split test
+python eval.py --model [runs/{run_name}/UNetTiny_*.pt] --split [split_name]
 ```
 
 **Arguments**
@@ -375,8 +365,13 @@ Runs inference using a PyTorch checkpoint. This is provided for completeness;
 ONNX inference is recommended for deployment.
 
 ```bash
-python inference.py --image path/to/image.bmp --model runs/{run_name}/UNetTiny_*.pt
+python inference.py --image [image.bmp] --model [model_path]
 ```
+
+**Arguments**
+- `--image` / `--i` (required): Path to input image
+- `--model` / `--m` (optional): Path to PyTorch model (Defaults to model in repo)
+- `--novisual` / `--nv` (optional): Disable visualization output
 
 **Outputs**
 Saved to `ml/inference/{image_name}/`:
@@ -390,7 +385,7 @@ Saved to `ml/inference/{image_name}/`:
 Exports a trained PyTorch checkpoint to ONNX format and validates the exported model.
 
 ```bash
-python export_onnx.py --model runs/{run_name}/UNetTiny_*.pt
+python export_onnx.py --model [model_path]
 ```
 
 **Output**
@@ -417,7 +412,7 @@ Runs plant counting and centroid localization using classical computer vision
 techniques (background suppression, segmentation, and connected components).
 
 ```bash
-python inference_cv.py --image path/to/image.bmp
+python inference_cv.py --image [image.bmp]
 ```
 
 **Arguments**
@@ -435,7 +430,7 @@ Saved to `classical/inference/{image_name}/`:
 Evaluates the classical CV pipeline on a dataset split.
 
 ```bash
-python eval_cv.py --split test --match_dist 50.0
+python eval_cv.py --split [split_name] --match_dist [match_dist]
 ```
 
 **Arguments**
@@ -444,5 +439,3 @@ python eval_cv.py --split test --match_dist 50.0
 
 **Outputs**  
 - Evaluation summary saved to `classical/eval_summary_{split}.json`
-```
-
