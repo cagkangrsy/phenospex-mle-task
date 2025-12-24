@@ -243,25 +243,6 @@ python dataset_creation.py
 
 ---
 
-### Augmented Test Set Creation
-
-Creates an augmented test set from the original test split.
-
-```bash
-python create_augmented_test_set.py
-```
-
-**Augmentations**
-- Discrete rotations
-- Gaussian noise
-- Random plant removal to break grid structure
-
-**Outputs**
-- Augmented images saved to `ml/data/images/test_aug/`
-- Updated annotations saved to `ml/data/annotations/test_aug.json`
-
----
-
 ### Annotation Tool
 
 Semi-automatic annotation tool for creating centroid ground truth.
@@ -279,6 +260,25 @@ python annotate.py
 - Grid-based automatic centroid interpolation
 - Manual annotation mode for refinement and fallback.
 - Interactive editing and correction
+
+---
+
+### Augmented Test Set Creation
+
+Creates an augmented test set with images and annotations from the original test split.
+
+```bash
+python create_augmented_test_set.py
+```
+
+**Augmentations**
+- Discrete rotations
+- Gaussian noise
+- Random plant removal to break grid structure
+
+**Outputs**
+- Augmented images saved to `ml/data/images/test_aug/`
+- Updated annotations saved to `ml/data/annotations/test_aug.json`
 
 ---
 
