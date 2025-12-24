@@ -12,7 +12,7 @@ from cv_pipeline import run as run_cv_pipeline
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser("Evaluate classical CV pipeline on dataset")
     parser.add_argument("--split", "--s", type=str, default="test", choices=["train", "val", "test", "test_aug", "test_empty"], help="Dataset split to evaluate on (default: test).")
-    parser.add_argument("--match_dist", "--m", type=float, default=50.0, help="Maximum pixel distance to match prediction to ground truth.")
+    parser.add_argument("--match_dist", "--m", type=float, default=5.0, help="Maximum pixel distance to match prediction to ground truth.")
     return parser.parse_args()
 
 
