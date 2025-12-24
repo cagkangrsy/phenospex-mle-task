@@ -266,6 +266,11 @@ python create_augmented_test_set.py
 
 Semi-automatic annotation tool for creating centroid ground truth.
 
+> **⚠️ OpenCV GUI Requirement**  
+> The annotation script (`misc/annotate.py`) requires a GUI-enabled OpenCV build (`opencv-python`) and a display server.  
+> Headless environments (servers, Docker, WSL without GUI, or `opencv-python-headless`) are not supported.  
+> If GUI is unavailable, alternative manual annotation tools (e.g., LabelImg, CVAT, or custom scripts) can be used to create annotations in the same JSON format.
+
 ```bash
 python annotate.py
 ```
