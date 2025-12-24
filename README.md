@@ -1,8 +1,8 @@
 <div align="center">
-  <h1 style="font-size: 3.2em; margin-bottom: 0.2em;">PHENOSPEX</h1>
-  <h2 style="font-size: 1.9em; margin-top: 0.2em; margin-bottom: 0.3em;">
+  <h2 style="font-size: 3.2em; margin-bottom: 0.2em;">PHENOSPEX</h2>
+  <h3 style="font-size: 1.9em; margin-top: 0.2em; margin-bottom: 0.3em;">
     Machine Learning Engineer – Take-Home Assignment
-  </h2>
+  </h3>
   <p style="font-size: 1.35em; margin-top: 0;">
     <strong>Plant Counting and Localization Under Edge Constraints</strong>
   </p>
@@ -16,6 +16,7 @@
     </a>
   </p>
 </div>
+
 
 
 ## Table of Contents
@@ -39,8 +40,7 @@
     
 ## Overview
 
-This repository contains the **complete reference implementation** for the Phenospex
-Machine Learning Engineer take-home assignment.
+This repository contains the implementation for the Phenospex Machine Learning Engineer take-home assignment.
 
 The objective of the codebase is to **count plants and localize their centroids** in
 top-down 2D images under practical deployment constraints (offline execution, CPU-only
@@ -114,7 +114,7 @@ phenospex-ml-engineer-task/
 ## Installation
 
 ### Requirements
-- Python 3.10
+- Python >3.10
 - PyTorch
 - (Optional) CUDA-capable GPU for faster training
 
