@@ -30,7 +30,7 @@ def collect_dataset_files(dataset_ids, source_file, extension):
 
     for id in dataset_ids:
         path_pattern = os.path.join("..", id, "*")
-        folders = glob.glob(path_pattern)
+        folders = sorted(glob.glob(path_pattern))  # Sort for deterministic order
 
         files_to_copy = []
         for folder in folders:
@@ -42,6 +42,8 @@ def collect_dataset_files(dataset_ids, source_file, extension):
             else:
                 print(f"No {source_file} found in: {folder}")
 
+        # Sort by new_name to ensure deterministic order before shuffling
+        files_to_copy.sort(key=lambda x: x[1])
         dataset_files[id] = files_to_copy
 
     return dataset_files
@@ -59,6 +61,8 @@ def create_splits(file_list, split_ratios, dataset_id):
     Returns:
         dict: Dictionary mapping split names to (files, count) tuples.
     """
+    # Create a copy and sort to ensure deterministic shuffle input
+    file_list = sorted(file_list, key=lambda x: x[1])
     random.shuffle(file_list)
     N = len(file_list)
 

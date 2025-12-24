@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from typing import Dict
 
 import cv2
@@ -11,10 +12,14 @@ ROTATIONS = [90, 180, 270]
 NOISE_SIGMA = 10.0
 ERASE_FRACTION = 0.3
 SEED = 42
-test_images_dir = os.path.join("../ml/data/images/test")
-out_images_dir = os.path.join("../ml/data/images/test_aug")
-test_annotations_dir = os.path.join("../ml/data/annotations/test.json")
-test_aug_annotations_dir = os.path.join("../ml/data/annotations/test_aug.json")
+
+# Convert to absolute paths for better reliability
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_project_root = os.path.dirname(_script_dir)
+test_images_dir = os.path.join(_project_root, "ml", "data", "images", "test")
+out_images_dir = os.path.join(_project_root, "ml", "data", "images", "test_aug")
+test_annotations_dir = os.path.join(_project_root, "ml", "data", "annotations", "test.json")
+test_aug_annotations_dir = os.path.join(_project_root, "ml", "data", "annotations", "test_aug.json")
 
 
 
@@ -176,11 +181,38 @@ def main():
     """
     np.random.seed(SEED)
 
+    # Validate required files and directories
+    if not os.path.exists(test_annotations_dir):
+        print(f"ERROR: Test annotations file not found: {test_annotations_dir}")
+        print("Please ensure test.json exists. You may need to:")
+        print("  1. Run dataset_creation.py to create the test split")
+        print("  2. Run annotate.py to create test annotations")
+        sys.exit(1)
+
+    if not os.path.isdir(test_images_dir):
+        print(f"ERROR: Test images directory not found: {test_images_dir}")
+        print("Please run dataset_creation.py first to create the test split.")
+        sys.exit(1)
+
+    # Check if test directory has any images
+    test_images = [f for f in os.listdir(test_images_dir) if f.lower().endswith(('.bmp', '.png', '.jpg', '.jpeg'))]
+    if not test_images:
+        print(f"ERROR: No images found in test directory: {test_images_dir}")
+        print("Please run dataset_creation.py first to create the test split.")
+        sys.exit(1)
+
     with open(test_annotations_dir, "r") as f:
         test_annotations: Dict[str, Dict] = json.load(f)
 
+    if not test_annotations:
+        print(f"ERROR: Test annotations file is empty: {test_annotations_dir}")
+        print("Please run annotate.py to create test annotations.")
+        sys.exit(1)
+
     os.makedirs(out_images_dir, exist_ok=True)
     aug_annotations: Dict[str, Dict] = {}
+    
+    print(f"Processing {len(test_annotations)} test images from: {test_images_dir}")
 
     for img_id, meta in tqdm(test_annotations.items(), desc="Augmenting test set"):
         img_path = os.path.join(test_images_dir, img_id)
@@ -224,11 +256,22 @@ def main():
             "centroids": kept_centroids.tolist(),
         }
 
+    if not aug_annotations:
+        print("\nWARNING: No augmented images were created. All input images were skipped.")
+        print("Please check that:")
+        print(f"  1. Test images exist in: {test_images_dir}")
+        print(f"  2. Image filenames in test.json match actual files")
+        sys.exit(1)
+
+    # Ensure annotations directory exists
+    os.makedirs(os.path.dirname(test_aug_annotations_dir), exist_ok=True)
+    
     with open(test_aug_annotations_dir, "w") as f:
         json.dump(aug_annotations, f, indent=2)
 
-    print(f"\nAugmented test images written to: {out_images_dir}")
-    print("Augmented annotations written to: ", test_aug_annotations_dir)
+    print(f"\n✓ Augmented test images written to: {out_images_dir}")
+    print(f"✓ Augmented annotations written to: {test_aug_annotations_dir}")
+    print(f"✓ Created {len(aug_annotations)} augmented images")
 
 
 if __name__ == "__main__":
