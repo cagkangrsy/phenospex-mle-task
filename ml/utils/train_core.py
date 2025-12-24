@@ -74,7 +74,7 @@ def validate(model: nn.Module, loader: DataLoader, criterion: nn.Module, device:
     return running / total if total > 0 else 0.0
 
 
-def get_dataloaders(img_size: int, sigma: float, augment: bool, os_wt: float, s_multip: float, batch_size: int, n_workers: int, generator: torch.Generator, root: str = "data") -> Tuple[DataLoader, DataLoader, int, int]:
+def get_dataloaders(img_size: int, sigma: float, augment: bool, os_wt: float, s_multip: float, batch_size: int, n_workers: int, generator: torch.Generator, root: str = "data", device: str ="cuda") -> Tuple[DataLoader, DataLoader, int, int]:
     """
     Create training and validation DataLoaders with weighted sampling.
 
@@ -126,11 +126,13 @@ def get_dataloaders(img_size: int, sigma: float, augment: bool, os_wt: float, s_
                                     replacement=True,
                                     generator=generator)
 
+    pin_memory = True if device == "cuda" else False
+
     train_loader = DataLoader(train_dataset,
                               batch_size=batch_size,
                               sampler=sampler,
                               num_workers=n_workers,
-                              pin_memory=True,
+                              pin_memory=pin_memory,
                               collate_fn=custom_collate_fn,
                               generator=generator)
 
@@ -138,7 +140,7 @@ def get_dataloaders(img_size: int, sigma: float, augment: bool, os_wt: float, s_
                             batch_size=batch_size,
                             shuffle=False,
                             num_workers=n_workers,
-                            pin_memory=True,
+                            pin_memory=pin_memory,
                             collate_fn=custom_collate_fn)
 
     return train_loader, val_loader, len(train_dataset), len(val_dataset)

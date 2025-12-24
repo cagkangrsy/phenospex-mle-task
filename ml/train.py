@@ -274,7 +274,8 @@ def main(args: argparse.Namespace) -> None:
                                                                        batch_size=args.batch_size,
                                                                        n_workers=args.num_workers,
                                                                        generator=generator,
-                                                                       root=args.dataset)
+                                                                       root=args.dataset,
+                                                                       device=args.device)
 
         print(f"Train samples: {train_len} | Val samples: {val_len}\n")
 
