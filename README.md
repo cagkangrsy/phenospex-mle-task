@@ -129,11 +129,19 @@ conda activate psx-ml
 
 ### PyTorch Installation
 
-#### GPU (CUDA) Installation
-Use this option if a CUDA-capable GPU is available.
+#### CPU-only Installation
+Use this option for CPU-only execution.
+
+```bash
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt
+```
+
+#### GPU (CUDA) Installation (Optional)
+**Optional:** Use this option only if you have a CUDA-capable GPU and want GPU acceleration.
 
 Install the PyTorch build that matches your local CUDA version.
-Refer to the official PyTorch installation guide to select the correct command:
+Refer to the official PyTorch installation guide to select the correct one:
 
 https://pytorch.org/get-started/locally/
 
@@ -141,14 +149,6 @@ Example (replace with the appropriate CUDA version for your system):
 
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130
-pip install -r requirements.txt
-```
-
-#### CPU-only Installation
-Use this option for CPU-only execution.
-
-```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
 ```
 
