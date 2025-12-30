@@ -324,6 +324,15 @@ Trains a UNetTiny model on the prepared dataset.
 python train.py --batch_size [BATCH_SIZE] --epochs [EPOCHS] --augment [AUGMENT] --learning_rate [LEARNING_RATE]
 ```
 
+> **Best Model Training**  
+> The provided best model (`UNetTiny_aug_sigma3.0_osw25.0_sm2.0`) was trained with the following hyperparameters:
+> 
+> ```bash
+> python train.py --batch_size 4 --epochs 200 --augment 1 --learning_rate 0.001 --img_size 512 --gaussian_sigma 3.0 --oversampling_weight 25.0 --sampler_multiplier 2.0 --weight_decay 0.0001 --patience_es 15 --patience_lr 5 --lr_drop_factor 0.1 --min_lr 1e-06 --device cuda
+> ```
+> 
+> **Results**: Best epoch 121, best validation loss 0.000984
+
 **Key Arguments**
 - `--batch_size`: Batch size
 - `--epochs`: Maximum number of epochs
